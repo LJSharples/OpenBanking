@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Col, Row } from "reactstrap";
 import Spinner from "./Spinner";
 import AccountsList from "./AccountsList";
+import CategoryList from "./CategoryList";
 import Investments from "./Investments";
 import Transactions from "./Transactions";
 
@@ -23,6 +24,7 @@ export const FinancialOverview = ({ data, error, loading }) => {
     <Row>
       <Col lg={{ size: 6, offset: 3 }}>
         <AccountsList data={data} />
+        <CategoryList data={data} />
         <Investments data={data} />
         <Transactions data={data} />
       </Col>

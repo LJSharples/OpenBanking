@@ -26,7 +26,7 @@ export const Callback = ({ location }) => {
       <Header {...headerProps} />
       <FinancialOverview loading={loading} data={data} error={error} />
       <p style={{ fontSize: "18px", paddingTop: "40px" }}>{message}</p>
-      <Button style={{ margin: "30px" }} href="/">
+      <Button style={{ margin: "30px" }} href="/money">
         Take me back
       </Button>
     </div>

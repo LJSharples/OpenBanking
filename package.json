@@ -13,6 +13,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@react-native-community/netinfo": "^5.9.9",
+    "amazon-cognito-identity-js": "^4.5.6",
+    "aws-amplify": "^3.3.13",
+    "aws-amplify-react-native": "^4.2.10",
     "body-parser": "1.19.0",
     "concurrently": "5.1.0",
     "express": "4.17.1",

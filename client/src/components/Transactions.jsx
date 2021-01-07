@@ -30,15 +30,20 @@ export const Transactions = ({ data }) => {
     const category = data.response.categoryData.find(
       category => category.id === transaction.categoryId
     );
+    const account = data.response.accountData.accounts.find(
+      account => account.id === transaction.accountId
+    )
     return (
       <p key={transaction.id}>
-        <b>{formatDate(new Date(transaction.date))}</b>
+        <b>Transaction Date: {formatDate(new Date(transaction.date))}</b>
         <br />
-        {transaction.description}
+        {transaction.categoryType}
         <br />
-        {formatNumber(transaction.amount)} {currency}
+        Value: {formatNumber(transaction.amount)} {currency}
         <br />
         {category.primaryName}
+        <br />
+        Account used: {account.name}
       </p>
     );
   });

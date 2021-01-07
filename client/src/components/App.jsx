@@ -3,6 +3,11 @@ import { Route, Switch } from "react-router-dom";
 import { Col, Container, Row } from "reactstrap";
 import { Callback } from "./Callback";
 import { Main } from "./Main";
+import { SignIn } from "./SignIn"
+import { Amplify } from "aws-amplify";
+import awsConfig from '../aws-exports';
+
+Amplify.configure(awsConfig);
 
 export const App = () => (
   <Container>
@@ -26,7 +31,8 @@ export const App = () => (
     <Row className="app">
       <Col lg={{ size: 8, offset: 2 }} style={{ paddingTop: "70px" }}>
         <Switch>
-          <Route exact path="/" component={Main} />
+          <Route exact path="/" component={SignIn} />
+          <Route exact path="/money" component={Main} />
           <Route exact path="/callback" component={Callback} />
         </Switch>
       </Col>

@@ -2,7 +2,7 @@ import React from "react";
 import { Button } from "reactstrap";
 import PropTypes from "prop-types";
 
-export const AuthorizationLink = ({ locale, market, scope, ssn }) => {
+export const AuthorizationLink = ({ scope, ssn }) => {
   const ssnData = ssn ? "&input_username=" + ssn : "";
   const link =
     "https://link.tink.com/1.0/authorize/?" +
@@ -13,9 +13,11 @@ export const AuthorizationLink = ({ locale, market, scope, ssn }) => {
     scope +
     ssnData +
     "&market=" +
-    market +
+    "GB" +
     "&locale=" +
-    locale;
+    "en_US" +
+    "&test=" +
+    "true";
 
   return <Button href={link}>Connect Bank</Button>;
 };
@@ -23,8 +25,6 @@ export const AuthorizationLink = ({ locale, market, scope, ssn }) => {
 AuthorizationLink.propTypes = {
   ssn: PropTypes.string,
   scope: PropTypes.string.isRequired,
-  market: PropTypes.string.isRequired,
-  locale: PropTypes.string.isRequired
 };
 
 export default AuthorizationLink;
