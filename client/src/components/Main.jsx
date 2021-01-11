@@ -1,8 +1,21 @@
 import React from "react";
 import { Header } from "./Header";
 import  AuthorizationLink from "./AuthorizationLink";
+import { Auth } from "aws-amplify"
+import { Redirect } from "react-router-dom"
 
+const checkUser = async () => {
+  try{
+    await Auth.currentAuthenticatedUser()
+    return true
+  } catch(e) {
+    return false
+  }
+}
 export const Main = () => {
+  if(!checkUser()){
+    return <Redirect to='/'/>
+  }
   return (
     <div>
       <Header text="Hello!" emoji="money" />

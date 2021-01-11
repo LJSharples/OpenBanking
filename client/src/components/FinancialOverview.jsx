@@ -27,7 +27,8 @@ const updateGraph = async (data) => {
     yearly_turnover: userProfile.data["getCompany"].yearly_turnover,
     num_employees: userProfile.data["getCompany"].num_employees,
     industry: userProfile.data["getCompany"].industry,
-    transactions: data.response.transactionData.results
+    transactions: data.response.transactionData.results,
+    categories: data.response.categoryData
   }
   console.log(update)
   try {
