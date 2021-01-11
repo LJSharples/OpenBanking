@@ -219,6 +219,7 @@ export const updateCompany = /* GraphQL */ `
     $years_trading: String
     $yearly_turnover: String
     $num_employees: String
+    $transactions: String
   ) {
     updateCompany(
       user_name: $user_name
@@ -235,6 +236,7 @@ export const updateCompany = /* GraphQL */ `
       years_trading: $years_trading
       yearly_turnover: $yearly_turnover
       num_employees: $num_employees
+      transactions: $transactions
     ) {
       Data
       company_name
@@ -250,6 +252,7 @@ export const updateCompany = /* GraphQL */ `
       yearly_turnover
       num_employees
       industry
+      transactions
     }
   }
 `;

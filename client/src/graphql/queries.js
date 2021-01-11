@@ -129,3 +129,30 @@ export const getProfile = /* GraphQL */ `
     }
   }
 `;
+export const getUserDetails = `query getUserProfile($user_name: String!){
+  getCompany(
+      user_name: $user_name
+  ) {
+      Data
+      company_name
+      address1
+      address2
+      city
+      company_number
+      postcode
+      region
+      years_trading
+      num_employees
+      yearly_turnover
+      industry
+  }
+  user (
+      user_name: $user_name
+  ) {
+      user_name
+      full_name
+      first_name
+      last_name
+      phone
+  }
+}`;
