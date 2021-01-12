@@ -164,6 +164,58 @@ export const addService = /* GraphQL */ `
     }
   }
 `;
+export const addTransaction = /* GraphQL */ `
+  mutation addTransaction(
+    $user_name: String,
+		$accountId: String,
+		$amount: String,
+		$categoryId: String,
+		$categoryType: String,
+		$currencyDenominatedAmount: String,
+		$date: String,
+		$description: String,
+		$dispensableAmount: String,
+		$formattedDescription: String,
+		$id: String,
+		$inserted: String,
+		$lastModified: String,
+		$originalAmount: String,
+		$originalDate: String,
+		$originalDescription: String,
+		$payload: String,
+		$timestamp: String,
+		$type: String,
+		$userId: String
+  ) {
+    addTransaction(
+      user_name: $user_name,
+      accountId: $accountId,
+      amount: $amount,
+      categoryId: $categoryId,
+      categoryType: $categoryType,
+      currencyDenominatedAmount: $currencyDenominatedAmount,
+      date: $date,
+      description: $description,
+      dispensableAmount: $dispensableAmount,
+      formattedDescription: $formattedDescription,
+      id: $id,
+      inserted: $inserted,
+      lastModified: $lastModified,
+      originalAmount: $originalAmount,
+      originalDate: $originalDate,
+      originalDescription: $originalDescription,
+      payload: $payload,
+      timestamp: $timestamp,
+      type: $type,
+      userId: $userId
+    ) {
+      id
+      amount
+      categoryType
+      description
+    }
+  }
+`;
 export const updateUser = /* GraphQL */ `
   mutation UpdateUser(
     $user_name: String

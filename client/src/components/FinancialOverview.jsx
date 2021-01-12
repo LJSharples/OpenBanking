@@ -3,39 +3,52 @@ import PropTypes from "prop-types";
 import { Col, Row } from "reactstrap";
 import Spinner from "./Spinner";
 import AccountsList from "./AccountsList";
-import CategoryList from "./CategoryList";
 import Investments from "./Investments";
 import Transactions from "./Transactions";
-import { getUserDetails } from "../graphql/queries"
-import { updateCompany } from "../graphql/mutations"
+import { formatDate } from "../utils/Format";
+import { addTransaction } from "../graphql/mutations"
 import { Auth, API, graphqlOperation } from "aws-amplify"
 
 const updateGraph = async (data) => {
   let user = await Auth.currentAuthenticatedUser();
-  const userProfile = await API.graphql(graphqlOperation(getUserDetails, { user_name: user.username}));
 
-  const update = {
-    user_name: user.username,
-    company_name: userProfile.data["getCompany"].Data,
-    address1: userProfile.data["getCompany"].address1,
-    address2: userProfile.data["getCompany"].address2,
-    city: userProfile.data["getCompany"].city,
-    postcode: userProfile.data["getCompany"].postcode,
-    region: userProfile.data["getCompany"].region,
-    company_number: userProfile.data["getCompany"].company_number,
-    years_trading: userProfile.data["getCompany"].years_trading,
-    yearly_turnover: userProfile.data["getCompany"].yearly_turnover,
-    num_employees: userProfile.data["getCompany"].num_employees,
-    industry: userProfile.data["getCompany"].industry,
-    transactions: data.response.transactionData.results,
-    categories: data.response.categoryData
-  }
-  console.log(update)
+  data.response.transactionData.results.map((result) => {
+    const dateFormatted = formatDate(new Date(result.transaction.date));
+    
+    const transaction = {
+      user_name: user.username,
+      accountId: result.transaction.accountId,
+      amount: result.transaction.amount,
+      categoryId: result.transaction.categoryId,
+      categoryType: result.transaction.categoryType,
+      currencyDenominatedAmount: result.transaction.currencyDenominatedAmount,
+      date: dateFormatted,
+      description: result.transaction.description,
+      dispensableAmount: result.transaction.dispensableAmount,
+      formattedDescription: result.transaction.formattedDescription,
+      id: result.transaction.id,
+      inserted: result.transaction.inserted,
+      lastModified: result.transaction.lastModified,
+      originalAmount: result.transaction.originalAmount,
+      originalDate: result.transaction.originalDate,
+      originalDescription: result.transaction.originalDescription,
+      payload: result.transaction.payload,
+      timestamp: result.transaction.timestamp,
+      type: result.transaction.type,
+      userId: result.transaction.userId
+    }
+    console.log(transaction)
+    uploadTransaction(transaction)
+  });
+}
+
+const uploadTransaction = async (transaction) => {
   try {
-    await API.graphql(graphqlOperation(updateCompany, update));
+    await API.graphql(graphqlOperation(addTransaction, transaction));
+    console.log("Success")
   } catch (err) {
-      console.log("Error: ")
-      console.log(err);
+    console.log("Error: ")
+    console.log(err);
   }
 }
 
@@ -57,7 +70,6 @@ export const FinancialOverview = ({ data, error, loading }) => {
     <Row>
       <Col lg={{ size: 6, offset: 3 }}>
         <AccountsList data={data} />
-        <CategoryList data={data} />
         <Investments data={data} />
         <Transactions data={data} />
       </Col>

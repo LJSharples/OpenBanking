@@ -5,15 +5,18 @@ import { Auth } from "aws-amplify"
 import { Redirect } from "react-router-dom"
 
 const checkUser = async () => {
-  try{
-    await Auth.currentAuthenticatedUser()
-    return true
-  } catch(e) {
-    return false
-  }
+  Auth.currentAuthenticatedUser()
+      .then(user => {
+        console.log("USER", user);
+        return true
+      })
+      .catch(err => {
+        console.log("ERROR", err);
+        return false
+      });
 }
 export const Main = () => {
-  if(!checkUser()){
+  if(checkUser() === false){
     return <Redirect to='/'/>
   }
   return (
