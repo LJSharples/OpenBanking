@@ -7,6 +7,7 @@ import Investments from "./Investments";
 import Transactions from "./Transactions";
 import { formatDate } from "../utils/Format";
 import { addTransaction } from "../graphql/mutations"
+import { getTransactions } from "../graphql/queries"
 import { Auth, API, graphqlOperation } from "aws-amplify"
 
 const updateGraph = async (data) => {
@@ -37,9 +38,12 @@ const updateGraph = async (data) => {
       type: result.transaction.type,
       userId: result.transaction.userId
     }
-    console.log(transaction)
     uploadTransaction(transaction)
   });
+  const transactionRecords = await API.graphql(graphqlOperation(getTransactions, {
+    user_name: user.username
+  }))
+  console.log(transactionRecords)
 }
 
 const uploadTransaction = async (transaction) => {

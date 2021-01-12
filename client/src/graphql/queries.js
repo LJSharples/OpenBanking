@@ -87,6 +87,31 @@ export const getServices = /* GraphQL */ `
     }
   }
 `;
+export const getTransactions = /* GraphQL */ `
+  query getTransactions($user_name: String!) {
+    getTransactions(user_name: $user_name) {
+      accountId,
+      amount,
+      categoryId,
+      categoryType,
+      currencyDenominatedAmount,
+      date,
+      description
+      dispensableAmount
+      formattedDescription
+      id
+      inserted
+      lastModified,
+      originalAmount,
+      originalDate,
+      originalDescription,
+      payload,
+      timestamp,
+      type,
+      userId
+    }
+  }
+`;
 export const getProfile = /* GraphQL */ `
   query GetProfile($user_name: String!) {
     getProfile(user_name: $user_name) {
