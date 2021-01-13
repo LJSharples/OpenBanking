@@ -1,20 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { getCurrency } from "../utils/getCurrency";
 import { formatNumber, formatDate } from "../utils/Format";
 
 export const Transactions = ({ data }) => {
-  if (
-    !data ||
-    !data.response ||
-    !data.response.transactionData ||
-    !data.response.categoryData
-  ) {
-    return <noscript />;
-  }
-  const currency = getCurrency(data);
 
-  if (data.response.transactionData.count === 0) {
+  console.log(data);
+  if (data.data.getTransactions.count === 0) {
     return (
       <div>
         <h4 className="pink">Some of your transactions</h4>
@@ -25,25 +16,16 @@ export const Transactions = ({ data }) => {
     );
   }
 
-  const transactions = data.response.transactionData.results.map(result => {
-    const transaction = result.transaction;
-    const category = data.response.categoryData.find(
-      category => category.id === transaction.categoryId
-    );
-    const account = data.response.accountData.accounts.find(
-      account => account.id === transaction.accountId
-    )
+  const transactions = data.data.getTransactions.map(result => {
     return (
-      <p key={transaction.id}>
-        <b>Transaction Date: {formatDate(new Date(transaction.date))}</b>
+      <p key={result.id}>
+        <b>Transaction Date: {formatDate(new Date(result.date))}</b>
         <br />
-        {transaction.categoryType}
+        {result.categoryType}
         <br />
-        Value: {formatNumber(transaction.amount)} {currency}
+        Value: {formatNumber(result.amount)}
         <br />
-        {category.primaryName}
-        <br />
-        Account used: {account.name}
+        {result.categoryName}
       </p>
     );
   });

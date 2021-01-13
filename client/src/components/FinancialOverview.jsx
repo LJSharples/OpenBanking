@@ -7,7 +7,6 @@ import Investments from "./Investments";
 import Transactions from "./Transactions";
 import { formatDate } from "../utils/Format";
 import { addTransaction } from "../graphql/mutations"
-import { getTransactions } from "../graphql/queries"
 import { Auth, API, graphqlOperation } from "aws-amplify"
 
 const updateGraph = async (data) => {
@@ -46,25 +45,26 @@ const updateGraph = async (data) => {
     }
     uploadTransaction(transaction)
   });
-  const transactionRecords = await API.graphql(graphqlOperation(getTransactions, {
-    user_name: user.username
-  }))
-  console.log(transactionRecords)
 }
 
 const uploadTransaction = async (transaction) => {
   try {
     await API.graphql(graphqlOperation(addTransaction, transaction));
-    console.log("Success")
   } catch (err) {
     console.log("Error: ")
     console.log(err);
   }
 }
 
-export const FinancialOverview = ({ data, error, loading }) => {
+export const FinancialOverview = ({ data, error, loading, transactions }) => {
   if (error) {
-    return <noscript />;
+    return (
+      <Row>
+        <Col lg={{ size: 6, offset: 3 }}>
+          <Transactions data={transactions}/>
+        </Col>
+      </Row>
+    );
   }
 
   if (loading) {
@@ -74,14 +74,14 @@ export const FinancialOverview = ({ data, error, loading }) => {
   if (!data) {
     return <noscript />;
   }
-  updateGraph(data);
+  //updateGraph(data);
 
   return (
     <Row>
       <Col lg={{ size: 6, offset: 3 }}>
         <AccountsList data={data} />
         <Investments data={data} />
-        <Transactions data={data} />
+        <Transactions data={transactions} />
       </Col>
     </Row>
   );
