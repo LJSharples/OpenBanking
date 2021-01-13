@@ -16,6 +16,9 @@ const updateGraph = async (data) => {
   data.response.transactionData.results.map((result) => {
     const dateFormatted = formatDate(new Date(result.transaction.date));
     
+    const category = data.response.categoryData.find(
+      category => category.id === result.transaction.categoryId
+    );
     const transaction = {
       user_name: user.username,
       accountId: result.transaction.accountId,
@@ -36,7 +39,10 @@ const updateGraph = async (data) => {
       payload: result.transaction.payload,
       timestamp: result.transaction.timestamp,
       type: result.transaction.type,
-      userId: result.transaction.userId
+      userId: result.transaction.userId,
+      categoryCode: category.code,
+      categoryName: category.primaryName,
+      categoryDescript: category.secondaryName
     }
     uploadTransaction(transaction)
   });

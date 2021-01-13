@@ -185,7 +185,10 @@ export const addTransaction = /* GraphQL */ `
 		$payload: String,
 		$timestamp: String,
 		$type: String,
-		$userId: String
+		$userId: String,
+		$categoryCode: String,
+		$categoryName: String,
+		$categoryDescript: String
   ) {
     addTransaction(
       user_name: $user_name,
@@ -207,7 +210,10 @@ export const addTransaction = /* GraphQL */ `
       payload: $payload,
       timestamp: $timestamp,
       type: $type,
-      userId: $userId
+      userId: $userId,
+      categoryCode: $categoryCode,
+      categoryName: $categoryName,
+      categoryDescript: $categoryDescript
     ) {
       id
       amount
