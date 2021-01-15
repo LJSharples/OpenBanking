@@ -19,7 +19,7 @@ export const AuthorizationLink = ({ scope, ssn }) => {
     "&test=" +
     "true";
 
-  return <Button href={link}>Connect Bank</Button>;
+  return <Button style={{ margin: "30px" }} href={link}>Connect Bank</Button>;
 };
 
 AuthorizationLink.propTypes = {

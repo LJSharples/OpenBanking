@@ -58,29 +58,25 @@ const uploadTransaction = async (transaction) => {
 export const FinancialOverview = ({ data, error, loading }) => {
   const [tData, addData] = useState({});
   const [transactionsAvailable, toggleAvaialble] = useState(false);
-  
+
   if(data !== undefined && data.response !== undefined){
-    updateGraph()
+    updateGraph(data)
   }
 
-  const prepare = () => {
-    GetData();
+  const getUser = async () => {
+    let user = await Auth.currentAuthenticatedUser();
+    GetData(user);
   }
 
-  const GetData =  async () => {
-    const d = await API.graphql(graphqlOperation(getTransactions, { user_name: 'ljsharples@hotmail.com'}));
-    console.log(d);
+  const GetData =  async (user) => {
+    const d = await API.graphql(graphqlOperation(getTransactions, { user_name: user.username}));
     refreshData(d);
   }
 
   const refreshData = (d) => {
     if(tData.data === undefined){
-      toggleAvaialble(false)
-      console.log(d)
       addData(d)
-    } else {
-      console.log(tData)
-      toggleAvaialble(true);
+      toggleAvaialble(true)
     }
   }
 
@@ -90,7 +86,7 @@ export const FinancialOverview = ({ data, error, loading }) => {
         <h4 className="pink">Some of your transactions</h4>
         <div style={{ margin: "30px" }}>
           <p style={{ fontSize: "18px", paddingTop: "40px" }}>You can refresh your transactions here</p>
-          <Button style={{ margin: "30px" }} onClick={() => prepare()}>
+          <Button style={{ margin: "30px" }} onClick={() => getUser()}>
             Get Transactions
           </Button>
         </div>
