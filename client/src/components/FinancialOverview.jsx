@@ -1,12 +1,10 @@
-import React from "react";
+import React, {useState} from "react";
 import PropTypes from "prop-types";
-import { Col, Row } from "reactstrap";
-import Spinner from "./Spinner";
-import AccountsList from "./AccountsList";
-import Investments from "./Investments";
+import { Col, Row, Button } from "reactstrap";
 import Transactions from "./Transactions";
 import { formatDate } from "../utils/Format";
 import { addTransaction } from "../graphql/mutations"
+import { getTransactions } from "../graphql/queries"
 import { Auth, API, graphqlOperation } from "aws-amplify"
 
 const updateGraph = async (data) => {
@@ -56,35 +54,57 @@ const uploadTransaction = async (transaction) => {
   }
 }
 
-export const FinancialOverview = ({ data, error, loading, transactions }) => {
-  if (error) {
+
+export const FinancialOverview = ({ data, error, loading }) => {
+  const [tData, addData] = useState({});
+  const [transactionsAvailable, toggleAvaialble] = useState(false);
+  
+  if(data !== undefined && data.response !== undefined){
+    updateGraph()
+  }
+
+  const prepare = () => {
+    GetData();
+  }
+
+  const GetData =  async () => {
+    const d = await API.graphql(graphqlOperation(getTransactions, { user_name: 'ljsharples@hotmail.com'}));
+    console.log(d);
+    refreshData(d);
+  }
+
+  const refreshData = (d) => {
+    if(tData.data === undefined){
+      toggleAvaialble(false)
+      console.log(d)
+      addData(d)
+    } else {
+      console.log(tData)
+      toggleAvaialble(true);
+    }
+  }
+
+  if(transactionsAvailable === false){
+    return (
+      <div>
+        <h4 className="pink">Some of your transactions</h4>
+        <div style={{ margin: "30px" }}>
+          <p style={{ fontSize: "18px", paddingTop: "40px" }}>You can refresh your transactions here</p>
+          <Button style={{ margin: "30px" }} onClick={() => prepare()}>
+            Get Transactions
+          </Button>
+        </div>
+      </div>
+    );
+  } else {
     return (
       <Row>
         <Col lg={{ size: 6, offset: 3 }}>
-          <Transactions data={transactions}/>
+          <Transactions data={tData} />
         </Col>
       </Row>
     );
   }
-
-  if (loading) {
-    return <Spinner width="50px" image={"./spinner.png"} />;
-  }
-
-  if (!data) {
-    return <noscript />;
-  }
-  //updateGraph(data);
-
-  return (
-    <Row>
-      <Col lg={{ size: 6, offset: 3 }}>
-        <AccountsList data={data} />
-        <Investments data={data} />
-        <Transactions data={transactions} />
-      </Col>
-    </Row>
-  );
 };
 
 FinancialOverview.propTypes = {

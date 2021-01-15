@@ -19,7 +19,7 @@ export const AmplifyLink = ({ username, password }) => {
     }
   })
 
-  return <Button href='http://localhost:3000/money' disabled={disabled}>Login</Button>;
+  return <Button href='http://localhost:3000/callback' disabled={disabled}>Login</Button>;
 };
 
 Button.propTypes = {

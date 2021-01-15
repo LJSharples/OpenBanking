@@ -1,10 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { formatNumber, formatDate } from "../utils/Format";
+import { formatNumber } from "../utils/Format";
 
 export const Transactions = ({ data }) => {
 
-  console.log(data);
   if (data.data.getTransactions.count === 0) {
     return (
       <div>
@@ -19,7 +18,7 @@ export const Transactions = ({ data }) => {
   const transactions = data.data.getTransactions.map(result => {
     return (
       <p key={result.id}>
-        <b>Transaction Date: {formatDate(new Date(result.date))}</b>
+        <b>Transaction Date: {result.date}</b>
         <br />
         {result.categoryType}
         <br />

@@ -108,7 +108,10 @@ export const getTransactions = /* GraphQL */ `
       payload,
       timestamp,
       type,
-      userId
+      userId,
+      categoryCode,
+      categoryName,
+      categoryDescript
     }
   }
 `;
